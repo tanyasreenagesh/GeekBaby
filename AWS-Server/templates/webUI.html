@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<title>GeekBaby Monitor</title>
+<meta name="description" content="Monitor your baby's environment"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"/>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Slab:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+</head>
+
+
+<body>
+
+<div id="header">
+
+        <div id="header-logo">
+        <h1>GeekBaby</h1>
+        </div>
+
+        <div id="cry-alert">
+        <h3 id="isCryVal"></h3>
+        </div>
+        <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                const source = new EventSource("data/isCry");
+                source.onmessage = function (event) {
+                        const data = JSON.parse(event.data);
+
+                        var alert;
+                        if(data.value == 0) {
+                                alert = "No Crying Detected";
+                        }
+                        else {
+                                alert = "Crying Detected!";
+                        }
+                        document.getElementById('isCryVal').innerText = alert;
+                }
+        });
+        </script>
+
+
+</div>
+
+<div id="main">
+
+<div id="controls">
+<h2>Parental Controls</h2>
+
+<form method="post" action="/data">
+        <h3>Play a Nursery Rhyme</h3>
+        <input type="submit" value="Start Rhyme" name="button3"/>
+        <input type="submit" value="Stop Rhyme" name="button3"/>
+
+        <h3>Fan</h3>
+        <input type="submit" value="Switch Fan On" name="button3"/>
+        <input type="submit" value="Switch Fan Off" name="button3"/>
+
+        <h3>Light & Brightness</h3>
+        <input type="submit" value="Low Light" name="button3"/>
+        <input type="submit" value="Bright Light" name="button3"/>
+        <input type="submit" value="Turn Light Off" name="button3"/>
+</form>
+</div>
+
+
+
+<div id="sound" class="sensor">
+<h2>Sound Exposure</h2>
+<h3 id="soundVal" class="current-value"></h3>
+</div>
+
+
+<div>
+<canvas id="soundChart" class="chart" width="900" height="400"></canvas>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+                const config = {
+                        type:'line',
+                        data: {
+                                labels: [],
+                                datasets: [{
+                                        label: "Sound",
+                                        borderColor: 'rgb(255,99,132)',
+                                        data: [],
+                                }],
+                        },
+                        options: {responsive: false}
+                };
+
+        const sc = document.getElementById('soundChart').getContext('2d');
+        const lc = new Chart(sc, config);
+        const source = new EventSource("data/sound");
+        source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if(config.data.labels.length == 20) {
+                        config.data.labels.shift();
+                        config.data.datasets[0].data.shift();
+                }
+                config.data.labels.push(data.time);
+                config.data.datasets[0].data.push(data.value);
+                lc.update();
+                document.getElementById('soundVal').innerText = data.value;
+        }
+});
+</script>
+
+
+<div id="light" class="sensor">
+<h2>Light Exposure</h2>
+<h3 id="lightVal" class="current-value"></h3>
+</div>
+
+<div>
+<canvas id="lightChart" class="chart" width="900" height="400"></canvas>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+                const config = {
+                        type:'line',
+                        data: {
+                                labels: [],
+                                datasets: [{
+                                        label: "Light",
+                                        borderColor: 'rgb(255,99,132)',
+                                        data: [],
+                                }],
+                        },
+                        options: {responsive: false}
+                };
+
+        const sc = document.getElementById('lightChart').getContext('2d');
+        const lc = new Chart(sc, config);
+        const source = new EventSource("data/light");
+        source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if(config.data.labels.length == 20) {
+                        config.data.labels.shift();
+                        config.data.datasets[0].data.shift();
+                }
+                config.data.labels.push(data.time);
+                config.data.datasets[0].data.push(data.value);
+                lc.update();
+                document.getElementById('lightVal').innerText = data.value;
+        }
+});
+</script>
+
+
+<div id="humidity" class="sensor">
+<h2>Room Humidity</h2>
+<h3 id="humidityVal" class="current-value"></h3>
+</div>
+
+
+<div>
+<canvas id="humidityChart" class="chart" width="900" height="400"></canvas>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+                const config = {
+                        type:'line',
+                        data: {
+                                labels: [],
+                                datasets: [{
+                                        label: "Humidity",
+                                        borderColor: 'rgb(255,99,132)',
+                                        data: [],
+                                }],
+                        },
+                        options: {responsive: false}
+                };
+
+        const sc = document.getElementById('humidityChart').getContext('2d');
+        const lc = new Chart(sc, config);
+        const source = new EventSource("data/humidity");
+        source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if(config.data.labels.length == 20) {
+                        config.data.labels.shift();
+                        config.data.datasets[0].data.shift();
+                }
+                config.data.labels.push(data.time);
+                config.data.datasets[0].data.push(data.value);
+                lc.update();
+                document.getElementById('humidityVal').innerText = data.value;
+        }
+});
+</script>
+
+
+<div id="temp" class="sensor">
+<h2>Room Temperature</h2>
+<h3 id="tempVal" class="current-value"></h3>
+</div>
+
+
+<div>
+<canvas id="tempChart" class="chart" width="900" height="400"></canvas>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+                const config = {
+                        type:'line',
+                        data: {
+                                labels: [],
+                                datasets: [{
+                                        label: "Temperature",
+                                        borderColor: 'rgb(255,99,132)',
+                                        data: [],
+                                }],
+                        },
+                        options: {responsive: false}
+                };
+
+        const sc = document.getElementById('tempChart').getContext('2d');
+        const lc = new Chart(sc, config);
+        const source = new EventSource("data/temp");
+        source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if(config.data.labels.length == 20) {
+                        config.data.labels.shift();
+                        config.data.datasets[0].data.shift();
+                }
+                config.data.labels.push(data.time);
+                config.data.datasets[0].data.push(data.value);
+                lc.update();
+                document.getElementById('tempVal').innerText = data.value;
+        }
+});
+</script>
+
+
+<div id="airQ" class="sensor">
+<h2>Air Quality</h2>
+<h3 id="airQVal" class="current-value"></h3>
+</div>
+
+
+<div>
+<canvas id="airQChart" class="chart" width="900" height="400"></canvas>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+                const config = {
+                        type:'line',
+                        data: {
+                                labels: [],
+                                datasets: [{
+                                        label: "Air Quality",
+                                        borderColor: 'rgb(255,99,132)',
+                                        data: [],
+                                }],
+                        },
+                        options: {responsive: false}
+                };
+
+        const sc = document.getElementById('airQChart').getContext('2d');
+        const lc = new Chart(sc, config);
+        const source = new EventSource("data/airQ");
+        source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if(config.data.labels.length == 20) {
+                        config.data.labels.shift();
+                        config.data.datasets[0].data.shift();
+                }
+                config.data.labels.push(data.time);
+                config.data.datasets[0].data.push(data.value);
+                lc.update();
+                document.getElementById('airQVal').innerText = data.value;
+        }
+});
+</script>
+
+</div>
+
+</body>
+
+</html>

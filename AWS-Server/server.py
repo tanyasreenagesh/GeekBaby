@@ -46,8 +46,9 @@ def hello():
 
 
 
-@app.route("/controls", methods=['GET', 'POST'])
-def controlsUI():
+# /data directory: Contains button and data visualization functionality
+@app.route("/data", methods=['GET', 'POST'])
+def webUI():
         global speakerFlag, fanFlag, lightFlag
 
         # Parental controls implementation
@@ -72,14 +73,7 @@ def controlsUI():
                         lightFlag = 0
 
         elif request.method == 'GET':
-                return render_template('controlsUI.html')
-        return render_template('controlsUI.html')
-
-
-# /data directory: Contains button and data visualization functionality
-@app.route("/data")
-def webUI():
-        # Render page
+                return render_template('webUI.html')
         return render_template('webUI.html')
 
 

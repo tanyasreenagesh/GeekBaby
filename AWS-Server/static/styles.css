@@ -1,0 +1,73 @@
+body {
+background-color: white;
+font-family: 'Inter', sans-serif;
+padding-left: 6em;
+padding-right: 6em;
+margin: 0 auto;
+color: #2F4F4F;
+max-width: 1100px;
+}
+
+#header {
+padding-top: 2.5em;
+padding-bottom: 2em;
+display:flex;
+justify-content: space-between;
+}
+
+#header-logo {
+color:rgb(255,99,132);
+}
+
+#cry-alert {
+border: 3px solid rgb(255,99,132);
+border-radius: 15px;
+padding-left: 2rem;
+padding-right:2rem;
+}
+
+#isCryVal {
+display: inline-block;
+vertical-align: middle;
+}
+
+#controls {
+padding-bottom: 4rem;
+}
+
+#controls h2 {
+padding-bottom: 0.5em;
+}
+
+#controls h3 {
+padding-top: 1.5em;
+}
+
+#controls input {
+background-color: white;
+padding: 0.8em;
+border:3px solid #A9A9A9;
+border-radius: 15px;
+margin-right: 1em;
+font-size: 13.5px;
+}
+
+#controls input:hover {
+border-color: rgb(255,99,132);
+cursor: pointer;
+}
+
+.sensor {
+display: flex;
+justify-content: space-between;
+}
+
+.current-value {
+font-weight: 500;
+color: rgb(255,99,132);
+}
+
+.chart {
+padding-bottom: 5rem;
+height: auto;
+}

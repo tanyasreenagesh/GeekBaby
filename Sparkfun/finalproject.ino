@@ -94,8 +94,6 @@ void fanOn() {
 }
 
 void adjustLight(char flag) {
-    Serial.println("Adjusting light");
-    Serial.println(flag);
     if(flag == '0')     analogWrite(LED, brightness[0]);
     if(flag == '1')     analogWrite(LED, brightness[1]);
     if(flag == '2')     analogWrite(LED, brightness[2]);
@@ -120,7 +118,7 @@ void setup() {
     startTime = millis();
     realStart = millis();
     
-    request.hostname = "54.221.113.13";
+    request.hostname = "54.87.140.154";
     request.port = 5000;
 }
 
@@ -236,8 +234,9 @@ void loop() {
         playSong();
     
     // Fan flag
-    if(flags[1] == '1')
+    if(flags[1] == '1') {
         fanOn();
+    }
         
     // Light brightness flag
     adjustLight(flags[2]);

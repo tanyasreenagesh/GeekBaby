@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<title>GeekBaby Monitor</title>
+<meta name="description" content="Monitor your baby's environment"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"/>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Slab:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+</head>
+
+
+<body>
+
+<div id="header">
+        <div id="header-logo">
+        <h1>GeekBaby</h1>
+        </div>
+</div>
+
+<div id="main">
+
+<div id="controls">
+<h2>Parental Controls</h2>
+
+<form method="post" action="/controls">
+        <h3>Play a Nursery Rhyme</h3>
+        <input type="submit" value="Start Rhyme" name="button3"/>
+        <input type="submit" value="Stop Rhyme" name="button3"/>
+
+        <h3>Fan</h3>
+        <input type="submit" value="Switch Fan On" name="button3"/>
+        <input type="submit" value="Switch Fan Off" name="button3"/>
+
+        <h3>Light & Brightness</h3>
+        <input type="submit" value="Low Light" name="button3"/>
+        <input type="submit" value="Bright Light" name="button3"/>
+        <input type="submit" value="Turn Light Off" name="button3"/>
+</form>
+</div>
+
+</div>
+
+</body>
+
+</html>
